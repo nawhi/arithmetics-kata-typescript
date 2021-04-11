@@ -1,5 +1,5 @@
 export function evaluate(input: string): number {
-  const operands = input.match(/\( (\d) \+ (\d) \)/)
+  const operands = input.match(/\( (\d+) \+ (\d+) \)/)
   if (!operands) {
     throw new Error("syntax error");
   }

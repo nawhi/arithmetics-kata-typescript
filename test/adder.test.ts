@@ -7,6 +7,7 @@ describe("adder", () => {
       ["( 0 + 0 )", 0],
       ["( 1 + 1 )", 2],
       ["( 3 + 8 )", 11],
+      ["( 100 + 200 )", 300],
     ] as const;
     cases.forEach(([input, expected]) => {
       it(`evaluates ${input} = ${expected}`, () => {
