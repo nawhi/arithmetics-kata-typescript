@@ -1,5 +1,5 @@
-import {badSyntax} from "./errors";
-import {operate} from "./operations";
+import { badSyntax } from "./errors";
+import { operate } from "./operations";
 
 export function evaluate(input: string): number {
   const tokens = input.split(" ");
@@ -16,7 +16,9 @@ function isNumber(token: string): boolean {
 
 function readBinOp(tokens: string[]): number {
   const lvalue = next(tokens);
-  if (isNumber(lvalue)) {
+  if (lvalue === "(") {
+    throw new Error("todo");
+  } else {
     const op = next(tokens);
     const rvalue = next(tokens);
     if (isNumber(rvalue)) {
@@ -25,5 +27,4 @@ function readBinOp(tokens: string[]): number {
       throw new Error("not implemented");
     }
   }
-  throw new Error("not implemented");
 }
