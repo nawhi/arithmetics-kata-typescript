@@ -1,6 +1,6 @@
-import { expect } from "chai";
+import {expect} from "chai";
 import {evaluate} from "../src/evaluate";
-import {BadSyntax, DivisionByZero, BAD_SYNTAX, DIVISION_BY_ZERO} from "../src/errors";
+import {BAD_SYNTAX, DIVISION_BY_ZERO} from "../src/errors";
 
 describe("adder", () => {
   describe("additions", () => {

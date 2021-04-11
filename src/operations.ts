@@ -1,9 +1,14 @@
-import { divisionByZero } from "./errors";
+import {badSyntax, divisionByZero} from "./errors";
 
-export type Operand = "+" | "-" | "*" | "/";
+const OPERANDS = ["+", "-", "*", "/"];
+export type Operand = typeof OPERANDS[number];
+
+export function isOperand(token: string): token is Operand {
+  return OPERANDS.includes(token);
+}
 
 export function operate(a: number, b: number, operand: Operand): number {
-  return BINARY_OPERATIONS[operand](a, b);
+  return isOperand(operand) ? BINARY_OPERATIONS[operand](a, b) : badSyntax();
 }
 
 type BinaryOperation = (a: number, b: number) => number;
