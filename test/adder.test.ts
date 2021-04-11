@@ -2,14 +2,20 @@ import { expect } from "chai";
 import { evaluate } from "../src/adder";
 
 describe("adder", () => {
-  const cases = [
-    ["1", "1"],
-    ["f", "parse error: illegal character 'f'"],
-  ] as const;
-
-  cases.forEach(([input, expected]) => {
-    it(`evaluates ${input} = ${expected}`, () => {
-      expect(evaluate(input)).to.eql(expected);
+  describe("additions", () => {
+    const cases = [
+      ["( 0 + 0 )", 0],
+      ["( 1 + 1 )", 2],
+      ["( 3 + 8 )", 11],
+    ] as const;
+    cases.forEach(([input, expected]) => {
+      it(`evaluates ${input} = ${expected}`, () => {
+        expect(evaluate(input)).to.eql(expected);
+      });
     });
+  });
+
+  describe("errors", () => {
+    it("throws ParseError when the input is invalid");
   });
 });
