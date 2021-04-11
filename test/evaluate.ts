@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import {evaluate} from "../src/evaluate";
-import {BadSyntax, DivisionByZero} from "../src/errors";
+import {BadSyntax, DivisionByZero, BAD_SYNTAX, DIVISION_BY_ZERO} from "../src/errors";
 
 describe("adder", () => {
   describe("additions", () => {
@@ -29,11 +29,11 @@ describe("adder", () => {
 
   describe("errors", () => {
     it('throws a syntax error when receiving invalid input', () => {
-      expect(() => evaluate("( 1 % 3 )")).to.throw(BadSyntax);
+      expect(() => evaluate("( 1 % 3 )")).to.throw(BAD_SYNTAX);
     });
 
     it('throws a division by zero error when asked to divide by zero', () => {
-      expect(() => evaluate("( 9 / 0 )")).to.throw(DivisionByZero)
+      expect(() => evaluate("( 9 / 0 )")).to.throw(DIVISION_BY_ZERO);
     });
   });
 });

@@ -1,12 +1,8 @@
-import {BadSyntax, DivisionByZero} from "./errors";
+import { BadSyntax, DivisionByZero } from "./errors";
 
 export function evaluate(input: string): number {
-  const tokens = input.match(/\( (\d+) ([+\-\*\/]) (\d+) \)/);
-  if (!tokens) {
-    throw new BadSyntax();
-  }
-  const [, rawA, operand, rawB] = tokens;
-  const [a, b] = [Number(rawA), Number(rawB)];
+  const [a, operand, b] = tokenize(input);
+
   switch (operand) {
     case "+":
       return a + b;
@@ -19,7 +15,16 @@ export function evaluate(input: string): number {
         throw new DivisionByZero();
       }
       return a / b;
-    default:
-      throw new BadSyntax();
   }
+}
+
+type Operand = "+" | "-" | "*" | "/";
+
+function tokenize(input: string): [number, Operand, number] {
+  const tokens = input.match(/\( (\d+) ([+\-*\/]) (\d+) \)/);
+  if (!tokens) {
+    throw new BadSyntax();
+  }
+  const [, rawA, operand, rawB] = tokens;
+  return [Number(rawA), operand as Operand, Number(rawB)];
 }
