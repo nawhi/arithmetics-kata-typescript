@@ -10,9 +10,15 @@ export async function runCLI() {
   while (true) {
     try {
       const input = await readLine(rl);
-      writeLine(rl, evaluate(input));
+      try {
+        writeLine(rl, evaluate(input).toString());
+      } catch (e) {
+        writeLine(rl, `Error: ${e.message}`);
+      }
     } catch (e) {
       return;
+    } finally {
+      rl.close();
     }
   }
 }
