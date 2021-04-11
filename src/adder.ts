@@ -1,7 +1,9 @@
+import {BadSyntax, DivisionByZero} from "./errors";
+
 export function evaluate(input: string): number {
   const tokens = input.match(/\( (\d+) ([+\-\*\/]) (\d+) \)/);
   if (!tokens) {
-    throw new Error("syntax error");
+    throw new BadSyntax();
   }
   const [, rawA, operand, rawB] = tokens;
   const [a, b] = [Number(rawA), Number(rawB)];
@@ -13,8 +15,11 @@ export function evaluate(input: string): number {
     case "*":
       return a * b;
     case "/":
-      if (b == 0) throw new Error("division by zero");
+      if (b == 0) {
+        throw new DivisionByZero();
+      }
       return a / b;
-    default: throw new Error("syntax error");
+    default:
+      throw new BadSyntax();
   }
 }
