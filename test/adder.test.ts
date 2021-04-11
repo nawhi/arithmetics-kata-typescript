@@ -14,6 +14,10 @@ describe("adder", () => {
 
       ["( 8 * 4 )", 32],
       ["( 9 * 0 )", 0],
+
+
+      ["( 10 / 5 )", 2],
+      ["( 5 / 2 )", 2.5],
     ] as const;
     cases.forEach(([input, expected]) => {
       it(`evaluates ${input} = ${expected}`, () => {
@@ -23,11 +27,12 @@ describe("adder", () => {
   });
 
   describe("errors", () => {
-    const cases = ["( 6 ? 9 )"];
-    cases.forEach((input) => {
-      it(`throws a syntax error when receiving ${input}`, () => {
-        expect(() => evaluate(input)).to.throw(/syntax error/);
-      });
+    it('throws a syntax error when receiving invalid input', () => {
+      expect(() => evaluate("( 1 % 3 )")).to.throw(/syntax error/);
+    });
+
+    it('throws a division by zero error when asked to divide by zero', () => {
+      expect(() => evaluate("( 9 / 0 )")).to.throw(/division by zero/)
     });
   });
 });
