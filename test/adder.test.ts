@@ -8,6 +8,8 @@ describe("adder", () => {
       ["( 1 + 1 )", 2],
       ["( 3 + 8 )", 11],
       ["( 100 + 200 )", 300],
+      ["( 5 - 3 )", 2],
+      ["( 500 - 930 )", -430],
     ] as const;
     cases.forEach(([input, expected]) => {
       it(`evaluates ${input} = ${expected}`, () => {
@@ -17,6 +19,11 @@ describe("adder", () => {
   });
 
   describe("errors", () => {
-    it("throws ParseError when the input is invalid");
+    const cases = ["( 6 ? 9 )"];
+    cases.forEach((input) => {
+      it(`throws a syntax error when receiving ${input}`, () => {
+        expect(() => evaluate(input)).to.throw(/syntax error/);
+      });
+    });
   });
 });
