@@ -1,15 +1,6 @@
 import { BadSyntax, DivisionByZero } from "./errors";
 
 export function evaluate(input: string): number {
-  return _evaluate(input);
-}
-
-const isInteger = (raw: string) => /^\d+$/.test(raw);
-
-function _evaluate(input: string) {
-  if (isInteger(input)) {
-    return Number(input);
-  }
   const [a, operand, b] = tokenize(input);
 
   switch (operand) {

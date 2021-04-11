@@ -1,6 +1,6 @@
-import {expect} from "chai";
+import { expect } from "chai";
 import {evaluate} from "../src/evaluate";
-import {BAD_SYNTAX, DIVISION_BY_ZERO} from "../src/errors";
+import {BadSyntax, DivisionByZero, BAD_SYNTAX, DIVISION_BY_ZERO} from "../src/errors";
 
 describe("adder", () => {
   describe("additions", () => {
@@ -19,15 +19,6 @@ describe("adder", () => {
 
       ["( 10 / 5 )", 2],
       ["( 5 / 2 )", 2.5],
-
-      // ["( 1 + ( 2 + 3 )", 6],
-      // ["( ( 1 + 2 ) + 3 )", 6],
-
-      // todo: whitespace
-      // todo: PEMDAS
-      // todo: mixed operations
-
-
     ] as const;
     cases.forEach(([input, expected]) => {
       it(`evaluates ${input} = ${expected}`, () => {
@@ -36,7 +27,7 @@ describe("adder", () => {
     });
   });
 
-  xdescribe("errors", () => {
+  describe("errors", () => {
     it('throws a syntax error when receiving invalid input', () => {
       expect(() => evaluate("( 1 % 3 )")).to.throw(BAD_SYNTAX);
     });
