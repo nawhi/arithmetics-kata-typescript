@@ -1,4 +1,4 @@
-import { evaluate } from "./adder";
+import { evaluate } from "./evaluate";
 import readline from "readline";
 
 export async function runCLI() {

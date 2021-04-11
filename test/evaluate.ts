@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import {evaluate} from "../src/adder";
+import {evaluate} from "../src/evaluate";
 import {BadSyntax, DivisionByZero} from "../src/errors";
 
 describe("adder", () => {
