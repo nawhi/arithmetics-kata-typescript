@@ -1,24 +1,10 @@
-import { BadSyntax, DivisionByZero } from "./errors";
+import {BadSyntax} from "./errors";
+import {Operand, operate} from "./operations";
 
 export function evaluate(input: string): number {
   const [a, operand, b] = tokenize(input);
-
-  switch (operand) {
-    case "+":
-      return a + b;
-    case "-":
-      return a - b;
-    case "*":
-      return a * b;
-    case "/":
-      if (b == 0) {
-        throw new DivisionByZero();
-      }
-      return a / b;
-  }
+  return operate(a, b, operand);
 }
-
-type Operand = "+" | "-" | "*" | "/";
 
 function tokenize(input: string): [number, Operand, number] {
   const tokens = input.match(/\( (\d+) ([+\-*\/]) (\d+) \)/);

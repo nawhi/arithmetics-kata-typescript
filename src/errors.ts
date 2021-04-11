@@ -7,8 +7,16 @@ export class BadSyntax extends Error {
   }
 }
 
+export function badSyntax(): never {
+  throw new BadSyntax();
+}
+
 export class DivisionByZero extends Error {
   constructor() {
     super(DIVISION_BY_ZERO);
   }
+}
+
+export function divisionByZero(): never {
+  throw new DivisionByZero();
 }
