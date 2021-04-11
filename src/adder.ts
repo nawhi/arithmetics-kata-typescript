@@ -1,8 +1,17 @@
 export function evaluate(input: string): number {
-  const tokens = input.match(/\( (\d+) ([+-]) (\d+) \)/)
+  const tokens = input.match(/\( (\d+) ([+\-\*]) (\d+) \)/);
   if (!tokens) {
     throw new Error("syntax error");
   }
-  const [, a, operand, b] = tokens;
-  return operand == "+" ? Number(a) + Number(b) : Number(a) - Number(b);
+  const [, rawA, operand, rawB] = tokens;
+  const [a, b] = [Number(rawA), Number(rawB)];
+  switch (operand) {
+    case "+":
+      return a + b;
+    case "-":
+      return a - b;
+    case "*":
+      return a * b;
+    default: throw new Error("syntax error");
+  }
 }
