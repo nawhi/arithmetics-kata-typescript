@@ -1,22 +1,16 @@
 export const BAD_SYNTAX = "syntax error";
 export const DIVISION_BY_ZERO = "division by zero";
+export const END_OF_INPUT = "unexpected end of input";
 
-export class BadSyntax extends Error {
-  constructor() {
-    super(BAD_SYNTAX);
-  }
+export function endOfInput(): never {
+  throw new Error(END_OF_INPUT);
 }
 
 export function badSyntax(): never {
-  throw new BadSyntax();
+  throw new Error(BAD_SYNTAX);
 }
 
-export class DivisionByZero extends Error {
-  constructor() {
-    super(DIVISION_BY_ZERO);
-  }
-}
 
 export function divisionByZero(): never {
-  throw new DivisionByZero();
+  throw new Error(DIVISION_BY_ZERO);
 }

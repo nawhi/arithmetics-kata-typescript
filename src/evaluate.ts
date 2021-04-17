@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { badSyntax } from "./errors";
+import {badSyntax, endOfInput} from "./errors";
 import { operate } from "./operations";
 
 export function evaluate(input: string): number {
@@ -26,7 +26,7 @@ class Tokenizer {
   }
 
   private getToken(): string {
-    return this.tokens.shift() || badSyntax();
+    return this.tokens.shift() || endOfInput();
   }
 
   finished(): boolean {

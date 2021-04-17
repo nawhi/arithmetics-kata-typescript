@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { evaluate } from "../src/evaluate";
-import { BAD_SYNTAX, DIVISION_BY_ZERO } from "../src/errors";
+import {BAD_SYNTAX, DIVISION_BY_ZERO, END_OF_INPUT} from "../src/errors";
 
 describe("adder", () => {
   const cases = [
@@ -38,5 +38,9 @@ describe("adder", () => {
 
   it("throws a division by zero error when asked to divide by zero", () => {
     expect(() => evaluate("( 9 / 0 )")).to.throw(DIVISION_BY_ZERO);
+  });
+
+  it('throws a syntax error when receiving input with unclosed bracket', () => {
+    expect(() => evaluate("( 1 + 2")).to.throw(END_OF_INPUT);
   });
 });
