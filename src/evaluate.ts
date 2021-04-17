@@ -42,9 +42,7 @@ function evaluateBinaryOperation(
   const lvalue =
     ltoken === "(" ? evaluateBinaryOperation(tokens) : Number(ltoken);
   if (tokens.finished()) return lvalue;
-  const op = tokens.next();
-  const rvalue = tokens.next();
-  const _closingBracket = tokens.next();
+  const [op, rvalue, _closingBracket] = tokens.next(3);
   if (isNumber(rvalue)) {
     return operate(lvalue, Number(rvalue), op);
   } else {
