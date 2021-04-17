@@ -19,6 +19,8 @@ describe("adder", () => {
     ["( 5 / 2 )", 2.5],
 
     ["( ( 1 + 2 ) + 3 )", 6],
+    ["( ( ( 1 + 2 ) + 3 ) + 4 )", 10],
+    ["( ( ( ( 1 + 2 ) + 3 ) + 4 ) + 5 )", 15],
   ] as const;
   cases.forEach(([input, expected]) => {
     it(`evaluates ${input} = ${expected}`, () => {
