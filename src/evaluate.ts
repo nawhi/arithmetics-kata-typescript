@@ -36,7 +36,6 @@ class Tokenizer {
 
 function evaluateBinaryOperation(
   tokens: Tokenizer,
-  accumulator: number = 0
 ): number {
   const ltoken = tokens.next();
   const lvalue =
