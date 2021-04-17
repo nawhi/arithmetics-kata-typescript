@@ -34,19 +34,22 @@ class Tokenizer {
   }
 }
 
-function evaluateBinaryOperation(
-  tokens: Tokenizer,
-): number {
+function evaluateBinaryOperation(tokens: Tokenizer): number {
   const ltoken = tokens.next();
   const lvalue =
     ltoken === "(" ? evaluateBinaryOperation(tokens) : Number(ltoken);
   if (tokens.finished()) return lvalue;
-  const [op, rvalue, closingBracket] = tokens.next(3);
-  syntaxRequires(closingBracket == ")");
-  if (isNumber(rvalue)) {
-    return operate(lvalue, Number(rvalue), op);
+  const [op, rtoken] = tokens.next(2);
+  if (isNumber(rtoken)) {
+    const rvalue = Number(rtoken);
+    const result = operate(lvalue, rvalue, op);
+    syntaxRequires(tokens.next() == ")");
+    return result;
   } else {
-    throw new Error("not implemented");
+    const rvalue = evaluateBinaryOperation(tokens);
+    const result = operate(lvalue, rvalue, op);
+    syntaxRequires(tokens.next() == ")");
+    return result;
   }
 }
 
