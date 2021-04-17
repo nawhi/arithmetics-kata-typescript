@@ -1,5 +1,5 @@
 import _ from "lodash";
-import {badSyntax, endOfInput} from "./errors";
+import { badSyntax, endOfInput } from "./errors";
 import { operate } from "./operations";
 
 export function evaluate(input: string): number {
@@ -40,17 +40,11 @@ function evaluateBinaryOperation(tokens: Tokenizer): number {
     ltoken === "(" ? evaluateBinaryOperation(tokens) : Number(ltoken);
   if (tokens.finished()) return lvalue;
   const [op, rtoken] = tokens.next(2);
-  if (isNumber(rtoken)) {
-    const rvalue = Number(rtoken);
-    const result = operate(lvalue, rvalue, op);
-    syntaxRequires(tokens.next() == ")");
-    return result;
-  } else {
-    const rvalue = evaluateBinaryOperation(tokens);
-    const result = operate(lvalue, rvalue, op);
-    syntaxRequires(tokens.next() == ")");
-    return result;
-  }
+  const rvalue =
+    rtoken === "(" ? evaluateBinaryOperation(tokens) : Number(rtoken);
+  const result = operate(lvalue, rvalue, op);
+  syntaxRequires(tokens.next() == ")");
+  return result;
 }
 
 function syntaxRequires(condition: boolean): void {
