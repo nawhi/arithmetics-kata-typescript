@@ -1,5 +1,6 @@
-import {badSyntax} from "./errors";
-import {operate} from "./operations";
+import _ from "lodash";
+import { badSyntax } from "./errors";
+import { operate } from "./operations";
 
 export function evaluate(input: string): number {
   const tokens = new Tokenizer(input);
@@ -16,7 +17,15 @@ class Tokenizer {
     this.tokens = rawString.split(" ");
   }
 
-  next(): string {
+  next(): string;
+  next(quantity: number): string[];
+  next(quantity?: number): string | string[] {
+    return quantity !== undefined
+      ? _.times(quantity).map(() => this.getToken())
+      : this.getToken();
+  }
+
+  private getToken(): string {
     return this.tokens.shift() || badSyntax();
   }
 
