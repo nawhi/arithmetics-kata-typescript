@@ -32,6 +32,10 @@ describe("adder", () => {
     expect(() => evaluate("( 1 % 3 )")).to.throw(BAD_SYNTAX);
   });
 
+  it('throws a syntax error when a closing bracket was expected', () => {
+    expect(() => evaluate("( ( 1 + 2 _ + 3 )")).to.throw(BAD_SYNTAX);
+  });
+
   it("throws a division by zero error when asked to divide by zero", () => {
     expect(() => evaluate("( 9 / 0 )")).to.throw(DIVISION_BY_ZERO);
   });

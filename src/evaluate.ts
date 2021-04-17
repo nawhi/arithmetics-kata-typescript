@@ -42,10 +42,17 @@ function evaluateBinaryOperation(
   const lvalue =
     ltoken === "(" ? evaluateBinaryOperation(tokens) : Number(ltoken);
   if (tokens.finished()) return lvalue;
-  const [op, rvalue, _closingBracket] = tokens.next(3);
+  const [op, rvalue, closingBracket] = tokens.next(3);
+  syntaxRequires(closingBracket == ")");
   if (isNumber(rvalue)) {
     return operate(lvalue, Number(rvalue), op);
   } else {
     throw new Error("not implemented");
+  }
+}
+
+function syntaxRequires(condition: boolean): void {
+  if (!condition) {
+    badSyntax();
   }
 }
