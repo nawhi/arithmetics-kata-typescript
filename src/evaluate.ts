@@ -3,7 +3,7 @@ import { operate } from "./operations";
 
 export function evaluate(input: string): number {
   const tokens = input.split(" ");
-  return readBinOp(tokens.slice(1));
+  return readBinOp(tokens);
 }
 
 function next(tokens: string[]): string {
@@ -17,7 +17,7 @@ function isNumber(token: string): boolean {
 function readBinOp(tokens: string[]): number {
   const lvalue = next(tokens);
   if (lvalue === "(") {
-    throw new Error("todo");
+    return readBinOp(tokens);
   } else {
     const op = next(tokens);
     const rvalue = next(tokens);
