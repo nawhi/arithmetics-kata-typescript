@@ -3,7 +3,7 @@ import { operate } from "./operations";
 
 export function evaluate(input: string): number {
   const tokens = input.split(" ");
-  return readBinOp(tokens);
+  return evaluateBinaryOperation(tokens);
 }
 
 function next(tokens: string[]): string {
@@ -14,17 +14,20 @@ function isNumber(token: string): boolean {
   return /^\d+$/.test(token);
 }
 
-function readBinOp(tokens: string[]): number {
-  const lvalue = next(tokens);
-  if (lvalue === "(") {
-    return readBinOp(tokens);
+function evaluateBinaryOperation(
+  tokens: string[],
+  accumulator: number = 0
+): number {
+  const ltoken = next(tokens);
+  const lvalue =
+    ltoken === "(" ? evaluateBinaryOperation(tokens) : Number(ltoken);
+  if (!tokens.length) return lvalue;
+  const op = next(tokens);
+  const rvalue = next(tokens);
+  const _closingBracket = next(tokens);
+  if (isNumber(rvalue)) {
+    return operate(lvalue, Number(rvalue), op);
   } else {
-    const op = next(tokens);
-    const rvalue = next(tokens);
-    if (isNumber(rvalue)) {
-      return operate(Number(lvalue), Number(rvalue), op);
-    } else {
-      throw new Error("not implemented");
-    }
+    throw new Error("not implemented");
   }
 }
