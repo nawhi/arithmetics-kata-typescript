@@ -1,14 +1,10 @@
-import { badSyntax, endOfInput } from "./errors";
-import { operate } from "./operations";
-import { CLOSE_PAREN, isOperator, OPEN_PAREN, Operator } from "./tokens";
+import {badSyntax, endOfInput} from "./errors";
+import {operate} from "./operations";
+import {CLOSE_PAREN, OPEN_PAREN, parseNumber, parseOperator} from "./tokens";
 
 export function evaluate(input: string): number {
   const tokens = new TokenConsumer(input);
   return readBinaryOp(tokens);
-}
-
-function isNumber(token: string): boolean {
-  return /^\d+$/.test(token);
 }
 
 // TODO: replace the state in this object with recursion
@@ -30,22 +26,6 @@ class TokenConsumer {
 function readValue(tokens: TokenConsumer) {
   const ltoken = tokens.next();
   return ltoken === OPEN_PAREN ? readBinaryOp(tokens) : parseNumber(ltoken);
-}
-
-function parseNumber(token: string) {
-  if (!isNumber(token)) {
-    throw new Error(`invalid token: expected a number but got '${token}'`);
-  }
-  return Number(token);
-}
-
-function parseOperator(token: string): Operator {
-  if (!isOperator(token)) {
-    throw new Error(
-      `invalid token: expected one of +, -, *, / but got '${token}'`
-    );
-  }
-  return token;
 }
 
 function readBinaryOp(tokens: TokenConsumer): number {
