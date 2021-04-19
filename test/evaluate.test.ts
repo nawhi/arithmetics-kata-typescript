@@ -37,6 +37,12 @@ describe("adder", () => {
     expect(() => evaluate("( 1 % 3 )")).to.throw(BAD_SYNTAX);
   });
 
+  it('throws a syntax error when receiving operands that are not numbers', () => {
+    expect(() => evaluate("( foo + bar )")).to.throw(
+      'invalid token: expected a number, got "foo"'
+    );
+  });
+
   it('throws a syntax error when a closing bracket was expected', () => {
     expect(() => evaluate("( ( 1 + 2 _ + 3 )")).to.throw(BAD_SYNTAX);
   });

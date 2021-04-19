@@ -1,8 +1,6 @@
-import { badSyntax, endOfInput } from "./errors";
-import { operate } from "./operations";
-
-const OPEN_PAREN = "(";
-const CLOSE_PAREN = ")";
+import {badSyntax, endOfInput} from "./errors";
+import {operate} from "./operations";
+import {CLOSE_PAREN, OPEN_PAREN} from "./tokens";
 
 export function evaluate(input: string): number {
   const tokens = new TokenConsumer(input);
@@ -31,7 +29,14 @@ class TokenConsumer {
 
 function readValue(tokens: TokenConsumer) {
   const ltoken = tokens.next();
-  return ltoken === OPEN_PAREN ? readBinaryOp(tokens) : Number(ltoken);
+  return ltoken === OPEN_PAREN ? readBinaryOp(tokens) : parseNumber(ltoken);
+}
+
+function parseNumber(token: string) {
+  if (!isNumber(token)) {
+    throw new Error(`invalid token: expected a number, got "${token}"`)
+  }
+  return Number(token);
 }
 
 function readBinaryOp(tokens: TokenConsumer): number {
