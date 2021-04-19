@@ -7,19 +7,21 @@ export async function runCLI() {
     output: process.stdout,
   });
 
-  while (true) {
-    try {
-      const input = await readLine(rl);
+  try {
+    while (true) {
       try {
-        writeLine(rl, evaluate(input).toString());
+        const input = await readLine(rl);
+        try {
+          writeLine(rl, evaluate(input).toString());
+        } catch (e) {
+          writeLine(rl, `Error: ${e.message}`);
+        }
       } catch (e) {
-        writeLine(rl, `Error: ${e.message}`);
+        return;
       }
-    } catch (e) {
-      return;
-    } finally {
-      rl.close();
     }
+  } finally {
+    rl.close();
   }
 }
 
