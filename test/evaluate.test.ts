@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { evaluate } from "../src/evaluate";
-import {BAD_SYNTAX, DIVISION_BY_ZERO, END_OF_INPUT} from "../src/errors";
+import { BAD_SYNTAX, DIVISION_BY_ZERO, END_OF_INPUT } from "../src/errors";
 
 describe("adder", () => {
   const cases = [
@@ -25,7 +25,7 @@ describe("adder", () => {
     ["( 10 + ( 20 + 30 ) )", 60],
     ["( 10 + ( 20 + ( 30 + 40 ) ) )", 100],
 
-    ["( 5 + ( ( 7 * 14 ) + ( 8 / 4 ) ) )", 105]
+    ["( 5 + ( ( 7 * 14 ) + ( 8 / 4 ) ) )", 105],
   ] as const;
   cases.forEach(([input, expected]) => {
     it(`evaluates ${input} = ${expected}`, () => {
@@ -33,25 +33,17 @@ describe("adder", () => {
     });
   });
 
-  it("throws a syntax error when receiving invalid input", () => {
-    expect(() => evaluate("( 1 % 3 )")).to.throw(BAD_SYNTAX);
-  });
+  const errorCases = [
+    ["( 1 % 3 )", "invalid token: expected one of +, -, *, / but got '%'"],
+    ["( foo + bar )", "invalid token: expected a number but got 'foo'"],
+    ["( ( 1 + 2 _ + 3 )", BAD_SYNTAX],
+    ["( 9 / 0 )", DIVISION_BY_ZERO],
+    ["( 1 + 2", END_OF_INPUT],
+  ] as const;
 
-  it('throws a syntax error when receiving operands that are not numbers', () => {
-    expect(() => evaluate("( foo + bar )")).to.throw(
-      'invalid token: expected a number, got "foo"'
-    );
-  });
-
-  it('throws a syntax error when a closing bracket was expected', () => {
-    expect(() => evaluate("( ( 1 + 2 _ + 3 )")).to.throw(BAD_SYNTAX);
-  });
-
-  it("throws a division by zero error when asked to divide by zero", () => {
-    expect(() => evaluate("( 9 / 0 )")).to.throw(DIVISION_BY_ZERO);
-  });
-
-  it('throws a syntax error when receiving input with unclosed bracket', () => {
-    expect(() => evaluate("( 1 + 2")).to.throw(END_OF_INPUT);
-  });
+  errorCases.forEach(([input, expectedError]) => {
+    it(`fails to evaluate ${input} with error "${expectedError}"`, () => {
+      expect(() => evaluate(input)).to.throw(expectedError);
+    })
+  })
 });

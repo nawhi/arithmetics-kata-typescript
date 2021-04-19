@@ -1,14 +1,14 @@
 import {divisionByZero} from "./errors";
 
 const OPERANDS = ["+", "-", "*", "/"];
-export type Operand = typeof OPERANDS[number];
+export type Operator = typeof OPERANDS[number];
 
-export function isOperand(token: string): token is Operand {
+export function isOperator(token: string): token is Operator {
   return OPERANDS.includes(token);
 }
 
 type BinaryOperation = (a: number, b: number) => number;
-export const BINARY_OPERATIONS: { [o in Operand]: BinaryOperation } = {
+export const BINARY_OPERATIONS: { [o in Operator]: BinaryOperation } = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
   "*": (a, b) => a * b,

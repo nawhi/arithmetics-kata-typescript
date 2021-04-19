@@ -1,6 +1,6 @@
-import {badSyntax, endOfInput} from "./errors";
-import {operate} from "./operations";
-import {CLOSE_PAREN, OPEN_PAREN} from "./tokens";
+import { badSyntax, endOfInput } from "./errors";
+import { operate } from "./operations";
+import { CLOSE_PAREN, isOperator, OPEN_PAREN, Operator } from "./tokens";
 
 export function evaluate(input: string): number {
   const tokens = new TokenConsumer(input);
@@ -34,9 +34,18 @@ function readValue(tokens: TokenConsumer) {
 
 function parseNumber(token: string) {
   if (!isNumber(token)) {
-    throw new Error(`invalid token: expected a number, got "${token}"`)
+    throw new Error(`invalid token: expected a number but got '${token}'`);
   }
   return Number(token);
+}
+
+function parseOperator(token: string): Operator {
+  if (!isOperator(token)) {
+    throw new Error(
+      `invalid token: expected one of +, -, *, / but got '${token}'`
+    );
+  }
+  return token;
 }
 
 function readBinaryOp(tokens: TokenConsumer): number {
@@ -44,9 +53,9 @@ function readBinaryOp(tokens: TokenConsumer): number {
   if (tokens.finished()) {
     return lvalue;
   }
-  const op = tokens.next();
+  const operator = parseOperator(tokens.next());
   const rvalue = readValue(tokens);
-  const result = operate(lvalue, rvalue, op);
+  const result = operate(lvalue, rvalue, operator);
   syntaxRequires(tokens.next() == CLOSE_PAREN);
   return result;
 }
